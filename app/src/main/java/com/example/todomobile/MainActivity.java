@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         /*
         //Initialisation de l'adapter pour city
         Adapter adapt = new Adapter(this, listTask);
-
          */
 
 
