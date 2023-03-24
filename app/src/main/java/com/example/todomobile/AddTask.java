@@ -1,6 +1,8 @@
 package com.example.todomobile;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,19 +11,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddTask extends AppCompatActivity {
-
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
     private Spinner mStatusSpinner;
     private Spinner mPrioritySpinner;
-    private DatePicker mStartDatePicker;
-    private DatePicker mEndDatePicker;
+    private TextInputEditText mStartDateEditText;
+    private TextInputEditText mEndDateEditText;
     private Button mSaveButton;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
@@ -35,10 +40,25 @@ public class AddTask extends AppCompatActivity {
         mDescriptionEditText = findViewById(R.id.description_edit_text);
         mStatusSpinner = findViewById(R.id.status_spinner);
         mPrioritySpinner = findViewById(R.id.priority_spinner);
-        mStartDatePicker = findViewById(R.id.start_date_picker);
-        mEndDatePicker = findViewById(R.id.end_date_picker);
-
         mSaveButton = findViewById(R.id.save_button);
+        mStartDateEditText = findViewById(R.id.start_date_picker_edittext);
+        mEndDateEditText = findViewById(R.id.end_date_picker_edittext);
+
+        mStartDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(mStartDateEditText);
+            }
+        });
+
+        mEndDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(mEndDateEditText);
+            }
+        });
+
+
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,15 +66,17 @@ public class AddTask extends AppCompatActivity {
                 String description = mDescriptionEditText.getText().toString().trim();
                 String status = mStatusSpinner.getSelectedItem().toString();
                 String priority = mPrioritySpinner.getSelectedItem().toString();
-                String startDate = mDateFormat.format(getDateFromDatePicker(mStartDatePicker));
-                String endDate = mDateFormat.format(getDateFromDatePicker(mEndDatePicker));
+                String startDate = Objects.requireNonNull(mStartDateEditText.getText()).toString().trim();
+                String endDate = Objects.requireNonNull(mEndDateEditText.getText()).toString().trim();
+
+                if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
+                    Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
                 // Faire quelque chose avec les données entrées par l'utilisateur
-                // Par exemple, les afficher dans un Toast
-                String message = "Titre : " + title + "\nDescription : " + description
-                        + "\nEtat : " + status + "\nPriorité : " + priority
-                        + "\nDate de Départ : " + startDate + "\nDate de Fin : " + endDate;
-                Toast.makeText(AddTask.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(AddTask.this, "Tâche ajoutée avec succès", Toast.LENGTH_LONG).show();
 
                 finish();
             }
@@ -71,21 +93,34 @@ public class AddTask extends AppCompatActivity {
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPrioritySpinner.setAdapter(priorityAdapter);
 
-        // Configurer les DatePicker
-        Calendar calendar = Calendar.getInstance();
-        mStartDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), null);
-        mEndDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), null);
+        // Configurer les DatePickers
+        String startDate = getIntent().getStringExtra("start_date");
+        String endDate = getIntent().getStringExtra("end_date");
+        if (startDate != null && endDate != null) {
+            mStartDateEditText.setText(startDate);
+            mEndDateEditText.setText(endDate);
+        }
+
     }
 
-    // Fonction pour convertir un DatePicker en Date
-    private Date getDateFromDatePicker(DatePicker datePicker) {
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year = datePicker.getYear();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-        return calendar.getTime();
+
+    private void showDatePickerDialog(final EditText editText) {
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String dateString = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        editText.setText(dateString);
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
     }
+
+
+
 }

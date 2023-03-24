@@ -9,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Titre Tâche"
-        app:layout_constraintTop_toTopOf="parent">
+        android:hint="Titre"
+        app:layout_constraintBottom_toTopOf="@+id/description_text_input_layout"
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title_edit_text"
@@ -25,53 +27,77 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title_text_input_layout"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
         android:hint="Description"
-        app:layout_constraintTop_toBottomOf="@+id/title_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@id/title_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/url_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description_text_input_layout"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="URL"
+        app:layout_constraintTop_toBottomOf="@id/title_text_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/url_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/start_date_text_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/description_text_input_layout"
-        android:layout_margin="16dp"
-        android:hint="Date de Départ"
-        app:layout_constraintEnd_toStartOf="@+id/end_date_text_input_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout">
 
-        <DatePicker
-            android:id="@+id/start_date_picker"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/start_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/url_text_input_layout"
+        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
+        android:hint="Date de Début"
+        app:layout_constraintTop_toBottomOf="@+id/url_text_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/start_date_picker_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false" />
+            android:clickable="true"
+            android:focusable="false"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/end_date_text_input_layout"
-        android:layout_width="0dp"
+        android:id="@+id/end_date_picker"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/description_text_input_layout"
+        android:layout_below="@id/start_date_picker"
+        android:layout_marginTop="16dp"
         android:layout_margin="16dp"
         android:hint="Date de Fin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/start_date_text_input_layout"
-        app:layout_constraintTop_toBottomOf="@+id/description_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@+id/start_date_picker">
 
-        <DatePicker
-            android:id="@+id/end_date_picker"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/end_date_picker_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false" />
+            android:clickable="true"
+            android:focusable="false"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,10 +105,10 @@
         android:id="@+id/status_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/end_date_text_input_layout"
+        android:layout_below="@id/end_date_picker"
         android:layout_margin="16dp"
         android:hint="Etat"
-        app:layout_constraintTop_toBottomOf="@+id/end_date_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@+id/end_date_picker">
 
         <Spinner
             android:id="@+id/status_spinner"
