@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+
+import org.apache.commons.validator.routines.UrlValidator;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -27,6 +29,8 @@ public class AddTask extends AppCompatActivity {
     private Spinner mPrioritySpinner;
     private TextInputEditText mStartDateEditText;
     private TextInputEditText mEndDateEditText;
+    private EditText mUrlEditText;
+
     private Button mSaveButton;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
@@ -43,6 +47,7 @@ public class AddTask extends AppCompatActivity {
         mSaveButton = findViewById(R.id.save_button);
         mStartDateEditText = findViewById(R.id.start_date_picker_edittext);
         mEndDateEditText = findViewById(R.id.end_date_picker_edittext);
+        mUrlEditText = findViewById(R.id.url_edit_text);
 
         mStartDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,11 +71,17 @@ public class AddTask extends AppCompatActivity {
                 String description = mDescriptionEditText.getText().toString().trim();
                 String status = mStatusSpinner.getSelectedItem().toString();
                 String priority = mPrioritySpinner.getSelectedItem().toString();
+                String url = mUrlEditText.getText().toString().trim();
                 String startDate = Objects.requireNonNull(mStartDateEditText.getText()).toString().trim();
                 String endDate = Objects.requireNonNull(mEndDateEditText.getText()).toString().trim();
 
                 if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
                     Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                UrlValidator urlValidator = new UrlValidator();
+                if (!urlValidator.isValid(url)) {
+                    Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
                     return;
                 }
 
