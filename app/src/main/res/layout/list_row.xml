@@ -11,32 +11,22 @@
         android:layout_height="40dp"/>
 
     <TextView
-        android:id="@+id/title"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:id="@+id/task_title"
         android:layout_toRightOf="@+id/select"
-        android:text="Titre" />
-
-    <TextView
-        android:id="@+id/realisateur"
-        android:layout_toRightOf="@+id/select"
-        android:layout_marginLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Description"/>
-
-    <TextView
-        android:id="@+id/duree"
-        android:layout_toRightOf="@+id/realisateur"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:text="Name"/>
+
+    <TextView
+        android:id="@+id/task_description"
+        android:layout_toRightOf="@+id/select"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/task_title"
         style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Duree : "/>
+        android:text="Realisateur : "/>
 
 </RelativeLayout>

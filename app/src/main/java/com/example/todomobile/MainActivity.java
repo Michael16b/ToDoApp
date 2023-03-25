@@ -3,16 +3,16 @@ package com.example.todomobile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listFilm;
+    ListView listTask;
     Button btnAdd;
 
     @Override
@@ -20,7 +20,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Task> listTask = new ArrayList<Task>();
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+
         /* Changer de vue pour aller dans l'activité AddTask */
         btnAdd = (Button) findViewById(R.id.btnAdd);
 
@@ -32,31 +41,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
-        /*
         //Initialisation de l'adapter pour city
-        Adapter adapt = new Adapter(this, listTask);
-         */
+        Adapter adapt = new Adapter(this, tasks);
 
-
-
-        /*
         //Récupération de la ListView
-        listFilm = (ListView) findViewById(R.id.listFilm);
+        listTask = (ListView) findViewById(R.id.listTask);
 
         //Passage des données à la ListView
-        listFilm.setAdapter(adapt);
+        listTask.setAdapter(adapt);
 
         //On ajoute un listener (clic sur un item)
-        listFilm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
 
-                Task selectedItem = (Cinema) adapter.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "Le film : " + selectedItem.getTitre(), Toast.LENGTH_LONG).show();
+                Task selectedItem = (Task) adapter.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "Le film : " + selectedItem.getTaskTitle(), Toast.LENGTH_SHORT).show();
             }
         });
-
-         */
     }
 }
