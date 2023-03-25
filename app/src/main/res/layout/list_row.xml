@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <CheckBox
-        android:id="@+id/select"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
     <TextView
         android:id="@+id/task_title"
-        android:layout_toRightOf="@+id/select"
-        android:layout_marginLeft="20dp"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:text="Name"/>
+        android:layout_margin="10dp"
+        android:layout_gravity="fill"
+        android:text="Task Title" />
 
     <TextView
         android:id="@+id/task_description"
-        android:layout_toRightOf="@+id/select"
-        android:layout_marginLeft="20dp"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/task_title"
-        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Realisateur : "/>
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_margin="10dp"
+        android:layout_gravity="fill"
+        android:text="Description" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/task_context"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_gravity="fill"
+        android:layout_margin="10dp"
+        android:text="Contexte" />
+
+
+</GridLayout>

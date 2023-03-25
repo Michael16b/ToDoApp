@@ -10,9 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Titre"
-        app:layout_constraintBottom_toTopOf="@+id/description_text_input_layout"
-
-        >
+        app:layout_constraintBottom_toTopOf="@+id/description_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title_edit_text"

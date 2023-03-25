@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listTask;
+    ListView listFilm;
     Button btnAdd;
 
     @Override
@@ -21,14 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ArrayList<Task> tasks = new ArrayList<Task>();
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
-        tasks.add(new Task("rien du tout", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("Tâche 1", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("Tâche 2", "coucou", "", "", "", "", ""));
+        tasks.add(new Task("Tâche 3", "coucou", "", "", "", "", ""));
 
         /* Changer de vue pour aller dans l'activité AddTask */
         btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -45,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapt = new Adapter(this, tasks);
 
         //Récupération de la ListView
-        listTask = (ListView) findViewById(R.id.listTask);
+        listFilm = (ListView) findViewById(R.id.listFilm);
 
         //Passage des données à la ListView
-        listTask.setAdapter(adapt);
+        listFilm.setAdapter(adapt);
 
         //On ajoute un listener (clic sur un item)
-        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listFilm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
 
