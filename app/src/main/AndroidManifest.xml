@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddTask" />
+        <activity
+            android:name=".TaskDetails"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:windowNoTitle="true" />
     </application>
 
 </manifest>

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,14 +39,26 @@ public class MainActivity extends AppCompatActivity {
         listTasks = (ListView) findViewById(R.id.listTasks);
         listTasks.setAdapter(adapt);
 
-        //On ajoute un listener (clic sur un item)
         listTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
                 Task selectedItem = (Task) adapter.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "La tâche : " + selectedItem.getTaskTitle(), Toast.LENGTH_SHORT).show();
+
+                // Créer un nouvel intent pour afficher les informations de la tâche
+                Intent intent = new Intent(MainActivity.this, TaskDetails.class);
+                intent.putExtra("title", selectedItem.getTaskTitle());
+                intent.putExtra("description", selectedItem.getDescription());
+                intent.putExtra("context", selectedItem.getContext());
+                intent.putExtra("priority", selectedItem.getPriority());
+                intent.putExtra("url", selectedItem.getUrl());
+                intent.putExtra("start_date", selectedItem.getBeginDate());
+                intent.putExtra("end_date", selectedItem.getEndDate());
+
+                // Démarrer la nouvelle activité pour afficher les informations de la tâche
+                startActivity(intent);
             }
         });
+
     }
 
     @Override

@@ -78,11 +78,15 @@ public class AddTask extends AppCompatActivity {
                 if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
                     Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
                     mIsValidTask = false;
+                } else {
+                    mIsValidTask = true;
                 }
                 if (!url.isEmpty()) {
                     if (!urlValidator.isValid(url)) {
                         Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
                         mIsValidTask = false;
+                    } else {
+                        mIsValidTask = true;
                     }
                 }
                 if (mIsValidTask) {
