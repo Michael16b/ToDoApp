@@ -1,6 +1,7 @@
 package com.example.todomobile;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,14 +25,13 @@ import java.util.Objects;
 public class AddTask extends AppCompatActivity {
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
-    private Spinner mStatusSpinner;
+    private Spinner mContextSpinner;
     private Spinner mPrioritySpinner;
     private TextInputEditText mStartDateEditText;
     private TextInputEditText mEndDateEditText;
     private EditText mUrlEditText;
-
+    private Boolean mIsValidTask = true;
     private Button mSaveButton;
-
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     @Override
@@ -41,7 +41,7 @@ public class AddTask extends AppCompatActivity {
 
         mTitleEditText = findViewById(R.id.title_edit_text);
         mDescriptionEditText = findViewById(R.id.description_edit_text);
-        mStatusSpinner = findViewById(R.id.status_spinner);
+        mContextSpinner = findViewById(R.id.context_spinner);
         mPrioritySpinner = findViewById(R.id.priority_spinner);
         mSaveButton = findViewById(R.id.save_button);
         mStartDateEditText = findViewById(R.id.start_date_picker_edittext);
@@ -68,35 +68,45 @@ public class AddTask extends AppCompatActivity {
             public void onClick(View v) {
                 String title = mTitleEditText.getText().toString().trim();
                 String description = mDescriptionEditText.getText().toString().trim();
-                String status = mStatusSpinner.getSelectedItem().toString();
+                String context = mContextSpinner.getSelectedItem().toString();
                 String priority = mPrioritySpinner.getSelectedItem().toString();
                 String url = mUrlEditText.getText().toString().trim();
                 String startDate = Objects.requireNonNull(mStartDateEditText.getText()).toString().trim();
                 String endDate = Objects.requireNonNull(mEndDateEditText.getText()).toString().trim();
-
-                if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
-                    Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
-                    return;
-                }
                 UrlValidator urlValidator = new UrlValidator();
-                if (!urlValidator.isValid(url)) {
-                    Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
-                    return;
+
+                if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
+                    Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
+                    mIsValidTask = false;
+                }
+                if (!url.isEmpty()) {
+                    if (!urlValidator.isValid(url)) {
+                        Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
+                        mIsValidTask = false;
+                    }
+                }
+                if (mIsValidTask) {
+                    Intent intent = new Intent();
+                    intent.putExtra("title", title);
+                    intent.putExtra("description", description);
+                    intent.putExtra("context", context);
+                    intent.putExtra("priority", priority);
+                    intent.putExtra("url", url);
+                    intent.putExtra("start_date", startDate);
+                    intent.putExtra("end_date", endDate);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
 
 
-                // Faire quelque chose avec les données entrées par l'utilisateur
-                Toast.makeText(AddTask.this, "Tâche ajoutée avec succès", Toast.LENGTH_LONG).show();
-
-                finish();
             }
         });
 
         // Configurer les spinners
         ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(this,
-                R.array.status_array, android.R.layout.simple_spinner_item);
+                R.array.context_array, android.R.layout.simple_spinner_item);
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mStatusSpinner.setAdapter(statusAdapter);
+        mContextSpinner.setAdapter(statusAdapter);
 
         ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.priority_array, android.R.layout.simple_spinner_item);

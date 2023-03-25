@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <ListView
-        android:id="@+id/listFilm"
-        android:layout_width="match_parent"
-        android:layout_height="755dp" />
 
     <Button
         android:id="@+id/btnAdd"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/circle_button"
+        android:text="+"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp" />
+
+    <ListView
+        android:id="@+id/listTasks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:text="Ajouter une tâche" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnAdd" />
 
-
-</LinearLayout>
+</RelativeLayout>

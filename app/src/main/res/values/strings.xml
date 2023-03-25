@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ToDoMobile</string>
+    <string name="title_icon_description">Icône de titre</string>
 </resources>

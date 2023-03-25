@@ -8,18 +8,18 @@ public class Task {
     private String description;
     private String beginDate;
     private String endDate;
-    private String state;
+    private String context;
     private String priority;
     private String url;
 
-    public Task(String taskTitle, String description, String beginDate, String endDate, String state, String priority, String url){
+    public Task(String taskTitle, String description, String beginDate, String endDate, String context, String priority, String url){
 
-        if(taskTitle !=null && description!=null && beginDate!=null && endDate!=null && state!=null && priority!=null && url != null){
+        if(taskTitle !=null && description!=null && beginDate!=null && endDate!=null && context!=null && priority!=null && url != null){
             this.taskTitle = taskTitle;
             this.description = description;
             this.beginDate = beginDate;
             this.endDate = endDate;
-            this.state = state;
+            this.context = context;
             this.priority = priority;
             this.url = url;
         }
@@ -29,7 +29,7 @@ public class Task {
     public String getDescription() {return description;}
     public String getBeginDate() {return beginDate;}
     public String getEndDate() {return endDate;}
-    public String getState() {return state;}
+    public String getContext() {return context;}
     public String getPriority() {return priority;}
     public String getUrl(){return url;}
 
@@ -37,7 +37,7 @@ public class Task {
     public void setDescription(String description) {this.description = description;}
     public void setBeginDate(String beginDate) {this.beginDate = beginDate;}
     public void setEndDate(String endDate) {this.endDate = endDate;}
-    public void setState(String state) {this.state = state;}
+    public void setContext(String state) {this.context = state;}
     public void setPriority(String priority) {this.priority = priority;}
     public void setUrl(String url){this.url = url;}
 }

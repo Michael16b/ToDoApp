@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Titre"
+        app:startIconContentDescription="@string/title_icon_description"
         app:layout_constraintBottom_toTopOf="@+id/description_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/description_text_input_layout"
@@ -57,92 +59,107 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/start_date_picker"
+    <LinearLayout
+        android:id="@+id/date_picker_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/url_text_input_layout"
-        android:layout_marginTop="16dp"
-        android:layout_margin="16dp"
-        android:hint="Date de Début"
-        app:layout_constraintTop_toBottomOf="@+id/url_text_input_layout">
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:layout_below="@id/url_text_input_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/start_date_picker_edittext"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/start_date_picker"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="none"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:hint="Date de Début"
+            app:layout_constraintTop_toBottomOf="@id/url_text_input_layout">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/start_date_picker_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/end_date_picker"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/end_date_picker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:hint="Date de Fin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/end_date_picker_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/spinner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/start_date_picker"
-        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         android:layout_margin="16dp"
-        android:hint="Date de Fin"
-        app:layout_constraintTop_toBottomOf="@+id/start_date_picker">
+        android:layout_below="@id/date_picker_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/end_date_picker_edittext"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/context_spinner_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="none"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:hint="Etat">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/context_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/context_array" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/status_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/end_date_picker"
-        android:layout_margin="16dp"
-        android:hint="Etat"
-        app:layout_constraintTop_toBottomOf="@+id/end_date_picker">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/status_spinner"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/priority_text_input_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:entries="@array/status_array" />
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:hint="Priorité">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/priority_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/priority_array" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/priority_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/status_text_input_layout"
-        android:layout_margin="16dp"
-        android:hint="Priorité"
-        app:layout_constraintTop_toBottomOf="@+id/status_text_input_layout">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/priority_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/priority_array" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/priority_text_input_layout"
+        android:layout_below="@+id/spinner_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:text="Enregistrer"
         android:textColor="@android:color/white"
         android:background="@color/design_default_color_primary"
-        app:layout_constraintTop_toBottomOf="@+id/priority_text_input_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_layout" />
 
 </RelativeLayout>

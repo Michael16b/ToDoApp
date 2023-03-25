@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="status_array">
-        <item>À faire</item>
-        <item>En cours</item>
-        <item>Terminé</item>
+    <string-array name="context_array">
+        <item>Sur PC</item>
+        <item>À la maison</item>
+        <item>Au bureau</item>
+        <item>Au téléphone</item>
     </string-array>
 
     <string-array name="priority_array">
-        <item>Haute</item>
-        <item>Moyenne</item>
-        <item>Basse</item>
+        <item>À faire</item>
+        <item>En cours</item>
+        <item>Terminé</item>
     </string-array>
 </resources>
