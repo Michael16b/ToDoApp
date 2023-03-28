@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:background="@android:color/background_dark"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
 
     <TextView
         android:id="@+id/title_textview"
@@ -11,6 +10,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:layout_marginBottom="8dp"
         android:textColor="@android:color/white"
         android:gravity="center"/>
 
@@ -19,89 +19,81 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
         android:layout_below="@id/title_textview"
-        android:layout_marginTop="8dp">
-    <TextView
-        android:id="@+id/context_textview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@android:color/white"/>
+        android:layout_marginTop="8dp"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/priority_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginStart="8dp"/>
+        <ImageView
+            android:id="@+id/context_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_computer_24"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center_vertical"  />
+
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/priority_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/dates_layout"
+        android:id="@+id/date_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:text="@string/DateEx"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
         android:layout_below="@id/linearLayout1"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/descriptionTask"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/date_textview"/>
+
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/description_textview"
         android:layout_marginTop="8dp">
 
-        <LinearLayout
-            android:id="@+id/dates_title_layout"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/modify"
+            android:textColor="#000000"
+            android:backgroundTint="#FFA500"/>
 
-            <TextView
-                android:id="@+id/start_date_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Date de début"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/end_date_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="16dp"
-                android:text="Date de fin"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/dates_data_layout"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnURL"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/start_date_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/end_date_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="16dp"
-                android:textColor="@android:color/white"
-                android:gravity="center"/>
-
-        </LinearLayout>
+            android:layout_weight="1"
+            android:text="Allez sur le site"
+            android:layout_marginStart="8dp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#0000FF"/>
 
     </LinearLayout>
-
-
-
-
-
 
 </RelativeLayout>

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ToDoMobile</string>
     <string name="title_icon_description">Icône de titre</string>
+    <string name="descriptionTask">Description de la tâche</string>
+    <string name="DateEx">Du : 01/01/2022 au 02/01/2022</string>
+    <string name="modify">Modifier</string>
+    <string name="delete">Supprimer</string>
 </resources>

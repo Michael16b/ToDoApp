@@ -40,4 +40,5 @@ public class Task {
     public void setContext(String state) {this.context = state;}
     public void setPriority(String priority) {this.priority = priority;}
     public void setUrl(String url){this.url = url;}
+
 }

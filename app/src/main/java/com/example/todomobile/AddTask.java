@@ -32,6 +32,7 @@ public class AddTask extends AppCompatActivity {
     private EditText mUrlEditText;
     private Boolean mIsValidTask = true;
     private Button mSaveButton;
+
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     @Override
@@ -47,6 +48,69 @@ public class AddTask extends AppCompatActivity {
         mStartDateEditText = findViewById(R.id.start_date_picker_edittext);
         mEndDateEditText = findViewById(R.id.end_date_picker_edittext);
         mUrlEditText = findViewById(R.id.url_edit_text);
+        boolean mIsEdit = getIntent().hasExtra("edit");
+
+        // Configuration des spinners
+        ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this,
+                R.array.priority_array, android.R.layout.simple_spinner_item);
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mPrioritySpinner.setAdapter(priorityAdapter);
+
+        ArrayAdapter<CharSequence> contextAdapter = ArrayAdapter.createFromResource(this,
+                R.array.context_array, android.R.layout.simple_spinner_item);
+        contextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mContextSpinner.setAdapter(contextAdapter);
+
+
+
+
+        if (getIntent().hasExtra("edit")) {
+            String title = getIntent().getStringExtra("title");
+            String description = getIntent().getStringExtra("description");
+            String context = getIntent().getStringExtra("context");
+            String priority = getIntent().getStringExtra("priority");
+            String startDate = getIntent().getStringExtra("start_date");
+            String endDate = getIntent().getStringExtra("end_date");
+            String url = getIntent().getStringExtra("url");
+
+
+
+            mTitleEditText.setText(title);
+            mDescriptionEditText.setText(description);
+            mStartDateEditText.setText(startDate);
+            mEndDateEditText.setText(endDate);
+            if (url != null) {
+                mUrlEditText.setText(url);
+            }
+
+            switch (context) {
+                case "Sur PC":
+                    mContextSpinner.setSelection(0);
+                    break;
+                case "À la maison":
+                    mContextSpinner.setSelection(1);
+                    break;
+                case "Au bureau":
+                    mContextSpinner.setSelection(2);
+                    break;
+                case "Au téléphone":
+                    mContextSpinner.setSelection(3);
+                    break;
+            }
+
+            switch (priority) {
+                case "À faire":
+                    mPrioritySpinner.setSelection(0);
+                    break;
+                case "En cours":
+                    mPrioritySpinner.setSelection(1);
+                    break;
+                case "Terminé":
+                    mPrioritySpinner.setSelection(2);
+                    break;
+            }
+        }
+
 
         mStartDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +135,12 @@ public class AddTask extends AppCompatActivity {
                 String context = mContextSpinner.getSelectedItem().toString();
                 String priority = mPrioritySpinner.getSelectedItem().toString();
                 String url = mUrlEditText.getText().toString().trim();
-                String startDate = Objects.requireNonNull(mStartDateEditText.getText()).toString().trim();
-                String endDate = Objects.requireNonNull(mEndDateEditText.getText()).toString().trim();
+                String startDate = mStartDateEditText.getText().toString().trim();
+                String endDate = mEndDateEditText.getText().toString().trim();
                 UrlValidator urlValidator = new UrlValidator();
 
                 if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
-                    Toast.makeText(AddTask.this, "Veuillez remplir tous les dates", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddTask.this, "Veuillez remplir tous les champs", Toast.LENGTH_LONG).show();
                     mIsValidTask = false;
                 } else {
                     mIsValidTask = true;
@@ -89,6 +153,7 @@ public class AddTask extends AppCompatActivity {
                         mIsValidTask = true;
                     }
                 }
+
                 if (mIsValidTask) {
                     Intent intent = new Intent();
                     intent.putExtra("title", title);
@@ -106,24 +171,20 @@ public class AddTask extends AppCompatActivity {
             }
         });
 
-        // Configurer les spinners
-        ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(this,
-                R.array.context_array, android.R.layout.simple_spinner_item);
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mContextSpinner.setAdapter(statusAdapter);
 
-        ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.priority_array, android.R.layout.simple_spinner_item);
-        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mPrioritySpinner.setAdapter(priorityAdapter);
 
         // Configurer les DatePickers
-        String startDate = getIntent().getStringExtra("start_date");
-        String endDate = getIntent().getStringExtra("end_date");
-        if (startDate != null && endDate != null) {
-            mStartDateEditText.setText(startDate);
-            mEndDateEditText.setText(endDate);
+
+        String startDate = mStartDateEditText.getText().toString().trim();
+        String endDate = mEndDateEditText.getText().toString().trim();
+        if (startDate == null) {
+            startDate = mDateFormat.format(Calendar.getInstance().getTime());
         }
+        if (endDate == null) {
+            endDate = mDateFormat.format(Calendar.getInstance().getTime());
+        }
+        mStartDateEditText.setText(startDate);
+        mEndDateEditText.setText(endDate);
 
     }
 
@@ -138,7 +199,9 @@ public class AddTask extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String dateString = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        String dayString = (dayOfMonth < 10 ? "0" : "") + dayOfMonth;
+                        String monthString = ((monthOfYear + 1) < 10 ? "0" : "") + (monthOfYear + 1);
+                        String dateString = dayString + "/" + monthString + "/" + year;
                         editText.setText(dateString);
                     }
                 }, year, month, day);
