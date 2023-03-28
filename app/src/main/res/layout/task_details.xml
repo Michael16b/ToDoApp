@@ -72,7 +72,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/description_textview"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/btnEdit"
@@ -95,5 +96,6 @@
             android:backgroundTint="#0000FF"/>
 
     </LinearLayout>
+
 
 </RelativeLayout>

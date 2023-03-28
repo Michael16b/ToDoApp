@@ -5,4 +5,6 @@
     <string name="DateEx">Du : 01/01/2022 au 02/01/2022</string>
     <string name="modify">Modifier</string>
     <string name="delete">Supprimer</string>
+    <string name="go">Go</string>
+    <string name="entrez_l_url_ici">Entrez l\'URL ici</string>
 </resources>

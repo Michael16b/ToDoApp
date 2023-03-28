@@ -145,6 +145,8 @@ public class AddTask extends AppCompatActivity {
                 } else {
                     mIsValidTask = true;
                 }
+
+
                 if (!url.isEmpty()) {
                     if (!urlValidator.isValid(url)) {
                         Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();

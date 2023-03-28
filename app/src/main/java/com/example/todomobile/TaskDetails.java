@@ -35,6 +35,7 @@ public class TaskDetails extends AppCompatActivity {
         TextView priorityTextView = findViewById(R.id.priority_textview);
         TextView dateTextView = findViewById(R.id.date_textview);
         Button btnEdit = findViewById(R.id.btnEdit);
+        Button btnURL = findViewById(R.id.btnURL);
 
 
 
@@ -45,6 +46,23 @@ public class TaskDetails extends AppCompatActivity {
         String priority = getIntent().getStringExtra("priority");
         String startDate = getIntent().getStringExtra("start_date");
         String endDate = getIntent().getStringExtra("end_date");
+        String url = getIntent().getStringExtra("url");
+
+        if (!url.isEmpty()) {
+            url = getIntent().getStringExtra("url");
+            String finalUrl = url;
+            btnURL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TaskDetails.this, WebViewToDo.class);
+                    intent.putExtra("url", finalUrl);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            btnURL.setVisibility(View.GONE);
+            btnURL.setEnabled(false);
+        }
 
 
 
