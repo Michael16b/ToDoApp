@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             String startDate = data.getStringExtra("start_date");
             String endDate = data.getStringExtra("end_date");
 
-            Task task = new Task(title, description, startDate, endDate, context, priority, url);
+            Task task = new Task(0, title, description, startDate, endDate, context, priority, url);
             TaskAdapter adapt = (TaskAdapter) listTasks.getAdapter();
             adapt.add(task);
             adapt.notifyDataSetChanged();
