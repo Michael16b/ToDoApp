@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Task {
 
+    private int id;
     private String taskTitle;
     private String description;
     private String beginDate;
@@ -12,9 +13,10 @@ public class Task {
     private String priority;
     private String url;
 
-    public Task(String taskTitle, String description, String beginDate, String endDate, String context, String priority, String url){
+    public Task(int id, String taskTitle, String description, String beginDate, String endDate, String context, String priority, String url){
 
         if(taskTitle !=null && description!=null && beginDate!=null && endDate!=null && context!=null && priority!=null && url != null){
+            this.id = id;
             this.taskTitle = taskTitle;
             this.description = description;
             this.beginDate = beginDate;
@@ -25,6 +27,7 @@ public class Task {
         }
     }
 
+    public int getId() {return id;}
     public String getTaskTitle() {return taskTitle;}
     public String getDescription() {return description;}
     public String getBeginDate() {return beginDate;}
@@ -33,6 +36,7 @@ public class Task {
     public String getPriority() {return priority;}
     public String getUrl(){return url;}
 
+    public void setId(int id) {this.id = id;}
     public void setTaskTitle(String taskTitle) {this.taskTitle = taskTitle;}
     public void setDescription(String description) {this.description = description;}
     public void setBeginDate(String beginDate) {this.beginDate = beginDate;}
