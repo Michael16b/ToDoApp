@@ -40,6 +40,7 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_task);
 
+        //Initialisation des attributs
         mTitleEditText = findViewById(R.id.title_edit_text);
         mDescriptionEditText = findViewById(R.id.description_edit_text);
         mContextSpinner = findViewById(R.id.context_spinner);
@@ -49,6 +50,7 @@ public class AddTask extends AppCompatActivity {
         mEndDateEditText = findViewById(R.id.end_date_picker_edittext);
         mUrlEditText = findViewById(R.id.url_edit_text);
         boolean mIsEdit = getIntent().hasExtra("edit");
+
 
         // Configuration des spinners
         ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this,
@@ -62,9 +64,10 @@ public class AddTask extends AppCompatActivity {
         mContextSpinner.setAdapter(contextAdapter);
 
 
-
-
+        //Si le but est de modifier une tâche alors on rentre dans cette condition
         if (getIntent().hasExtra("edit")) {
+
+            //Récupération des valeurs originales (de la tâche déjà créée)
             String title = getIntent().getStringExtra("title");
             String description = getIntent().getStringExtra("description");
             String context = getIntent().getStringExtra("context");
@@ -73,8 +76,7 @@ public class AddTask extends AppCompatActivity {
             String endDate = getIntent().getStringExtra("end_date");
             String url = getIntent().getStringExtra("url");
 
-
-
+            //Récupération des nouvelles valeurs
             mTitleEditText.setText(title);
             mDescriptionEditText.setText(description);
             mStartDateEditText.setText(startDate);
@@ -112,6 +114,7 @@ public class AddTask extends AppCompatActivity {
         }
 
 
+        //Afficher les date picker sur click
         mStartDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,56 +130,57 @@ public class AddTask extends AppCompatActivity {
         });
 
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title = mTitleEditText.getText().toString().trim();
-                String description = mDescriptionEditText.getText().toString().trim();
-                String context = mContextSpinner.getSelectedItem().toString();
-                String priority = mPrioritySpinner.getSelectedItem().toString();
-                String url = mUrlEditText.getText().toString().trim();
-                String startDate = mStartDateEditText.getText().toString().trim();
-                String endDate = mEndDateEditText.getText().toString().trim();
-                UrlValidator urlValidator = new UrlValidator();
+        //Button enregistrer
+        mSaveButton.setOnClickListener(e -> {
 
-                if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
-                    Toast.makeText(AddTask.this, "Veuillez remplir tous les champs", Toast.LENGTH_LONG).show();
+            //Récupération des valeurs
+            String title = mTitleEditText.getText().toString().trim();
+            String description = mDescriptionEditText.getText().toString().trim();
+            String context = mContextSpinner.getSelectedItem().toString();
+            String priority = mPrioritySpinner.getSelectedItem().toString();
+            String url = mUrlEditText.getText().toString().trim();
+            String startDate = mStartDateEditText.getText().toString().trim();
+            String endDate = mEndDateEditText.getText().toString().trim();
+            UrlValidator urlValidator = new UrlValidator();
+
+            //Vérification des champs vides
+            if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
+                Toast.makeText(AddTask.this, "Veuillez remplir tous les champs", Toast.LENGTH_LONG).show();
+                mIsValidTask = false;
+            } else {
+                mIsValidTask = true;
+            }
+
+            //Vérification de l'url (vide ou non)
+            if (!url.isEmpty()) {
+                if (!urlValidator.isValid(url)) {
+                    Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
                     mIsValidTask = false;
                 } else {
                     mIsValidTask = true;
                 }
-
-
-                if (!url.isEmpty()) {
-                    if (!urlValidator.isValid(url)) {
-                        Toast.makeText(AddTask.this, "Veuillez entrer une URL valide", Toast.LENGTH_LONG).show();
-                        mIsValidTask = false;
-                    } else {
-                        mIsValidTask = true;
-                    }
-                }
-
-                if (mIsValidTask) {
-                    Intent intent = new Intent();
-                    intent.putExtra("title", title);
-                    intent.putExtra("description", description);
-                    intent.putExtra("context", context);
-                    intent.putExtra("priority", priority);
-                    intent.putExtra("url", url);
-                    intent.putExtra("start_date", startDate);
-                    intent.putExtra("end_date", endDate);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-
-
             }
+
+            //Si tout est valid alors on enregistre le texte
+            if (mIsValidTask) {
+                Intent intent = new Intent();
+                intent.putExtra("title", title);
+                intent.putExtra("description", description);
+                intent.putExtra("context", context);
+                intent.putExtra("priority", priority);
+                intent.putExtra("url", url);
+                intent.putExtra("start_date", startDate);
+                intent.putExtra("end_date", endDate);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            Database myDB = new Database(this.getBaseContext());
+            myDB.addTask(title, description, startDate, endDate, context, priority, url);
         });
 
 
-
         // Configurer les DatePickers
-
         String startDate = mStartDateEditText.getText().toString().trim();
         String endDate = mEndDateEditText.getText().toString().trim();
         if (startDate == null) {
@@ -187,10 +191,9 @@ public class AddTask extends AppCompatActivity {
         }
         mStartDateEditText.setText(startDate);
         mEndDateEditText.setText(endDate);
-
     }
 
-
+    //Affichage des date picker
     private void showDatePickerDialog(final EditText editText) {
         final Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -209,7 +212,5 @@ public class AddTask extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
-
-
 
 }

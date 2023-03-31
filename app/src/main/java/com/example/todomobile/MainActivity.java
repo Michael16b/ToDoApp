@@ -1,11 +1,14 @@
 package com.example.todomobile;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView listTasks;
+    Database myDB;
+    ArrayList<Task> tasks;
     Button btnAdd;
 
     @Override
@@ -22,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Task> tasks = new ArrayList<Task>();
+        tasks = new ArrayList<Task>();
 
         /* Changer de vue pour aller dans l'activité AddTask */
         btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -80,9 +85,32 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        myDB = new Database(this.getBaseContext());
+        storeData();
     }
 
+    void storeData(){
+        Cursor cursor = myDB.readAllData();
 
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "Aucune données", Toast.LENGTH_SHORT).show();
+        }else{
+            while (cursor.moveToNext()){
+                Task newTask = new Task(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7));
+
+                tasks.add(newTask);
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
