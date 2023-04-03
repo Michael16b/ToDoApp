@@ -3,6 +3,7 @@ package com.example.todomobile;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,15 +24,16 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class AddTask extends AppCompatActivity {
-    private EditText mTitleEditText;
-    private EditText mDescriptionEditText;
-    private Spinner mContextSpinner;
-    private Spinner mPrioritySpinner;
-    private TextInputEditText mStartDateEditText;
-    private TextInputEditText mEndDateEditText;
+
+    private EditText mTitleEditText, mDescriptionEditText;
+    private Spinner mContextSpinner, mPrioritySpinner;
+    private TextInputEditText mStartDateEditText, mEndDateEditText;
     private EditText mUrlEditText;
     private Boolean mIsValidTask = true;
     private Button mSaveButton;
+
+    int id;
+    String title, description, context, priority, url, startDate, endDate;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
@@ -68,22 +70,21 @@ public class AddTask extends AppCompatActivity {
         if (getIntent().hasExtra("edit")) {
 
             //Récupération des valeurs originales (de la tâche déjà créée)
-            String title = getIntent().getStringExtra("title");
-            String description = getIntent().getStringExtra("description");
-            String context = getIntent().getStringExtra("context");
-            String priority = getIntent().getStringExtra("priority");
-            String startDate = getIntent().getStringExtra("start_date");
-            String endDate = getIntent().getStringExtra("end_date");
-            String url = getIntent().getStringExtra("url");
+            id = getIntent().getIntExtra("id", 0);
+            title = getIntent().getStringExtra("title");
+            description = getIntent().getStringExtra("description");
+            context = getIntent().getStringExtra("context");
+            priority = getIntent().getStringExtra("priority");
+            startDate = getIntent().getStringExtra("start_date");
+            endDate = getIntent().getStringExtra("end_date");
+            url = getIntent().getStringExtra("url");
 
-            //Récupération des nouvelles valeurs
+            //Affichage des anciennes valeurs
             mTitleEditText.setText(title);
             mDescriptionEditText.setText(description);
             mStartDateEditText.setText(startDate);
             mEndDateEditText.setText(endDate);
-            if (url != null) {
-                mUrlEditText.setText(url);
-            }
+            if (url != null) mUrlEditText.setText(url);
 
             switch (context) {
                 case "Sur PC":
@@ -114,19 +115,15 @@ public class AddTask extends AppCompatActivity {
         }
 
 
-        //Afficher les date picker sur click
+        //Afficher les date picker sur clic
         mStartDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showDatePickerDialog(mStartDateEditText);
-            }
+            public void onClick(View v) {showDatePickerDialog(mStartDateEditText);}
         });
 
         mEndDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showDatePickerDialog(mEndDateEditText);
-            }
+            public void onClick(View v) {showDatePickerDialog(mEndDateEditText);}
         });
 
 
@@ -134,13 +131,13 @@ public class AddTask extends AppCompatActivity {
         mSaveButton.setOnClickListener(e -> {
 
             //Récupération des valeurs
-            String title = mTitleEditText.getText().toString().trim();
-            String description = mDescriptionEditText.getText().toString().trim();
-            String context = mContextSpinner.getSelectedItem().toString();
-            String priority = mPrioritySpinner.getSelectedItem().toString();
-            String url = mUrlEditText.getText().toString().trim();
-            String startDate = mStartDateEditText.getText().toString().trim();
-            String endDate = mEndDateEditText.getText().toString().trim();
+            title = mTitleEditText.getText().toString().trim();
+            description = mDescriptionEditText.getText().toString().trim();
+            context = mContextSpinner.getSelectedItem().toString();
+            priority = mPrioritySpinner.getSelectedItem().toString();
+            url = mUrlEditText.getText().toString().trim();
+            startDate = mStartDateEditText.getText().toString().trim();
+            endDate = mEndDateEditText.getText().toString().trim();
             UrlValidator urlValidator = new UrlValidator();
 
             //Vérification des champs vides
@@ -161,22 +158,23 @@ public class AddTask extends AppCompatActivity {
                 }
             }
 
-            //Si tout est valid alors on enregistre le texte
-            if (mIsValidTask) {
-                Intent intent = new Intent();
-                intent.putExtra("title", title);
-                intent.putExtra("description", description);
-                intent.putExtra("context", context);
-                intent.putExtra("priority", priority);
-                intent.putExtra("url", url);
-                intent.putExtra("start_date", startDate);
-                intent.putExtra("end_date", endDate);
-                setResult(RESULT_OK, intent);
+            //Si le but est la modification d'une tâche, on rentre dans cette condition
+            if (getIntent().hasExtra("edit")) {
+                //Mise à jour
+                Database mydb = new Database(this.getBaseContext());
+                mydb.updateData(id, title, description, startDate, endDate, context, priority, url);
                 finish();
-            }
+            }else{
 
-            Database myDB = new Database(this.getBaseContext());
-            myDB.addTask(title, description, startDate, endDate, context, priority, url);
+                //Si tout est valide alors on enregistre le texte
+                if (mIsValidTask) {
+                    Intent intent = new Intent();
+                    Database myDB = new Database(this.getBaseContext());
+                    myDB.addTask(title, description, startDate, endDate, context, priority, url);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
         });
 
 

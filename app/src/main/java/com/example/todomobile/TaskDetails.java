@@ -21,6 +21,9 @@ public class TaskDetails extends AppCompatActivity {
 
     private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
+    int id;
+    String title, description, context, priority, startDate, endDate, url;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -38,19 +41,17 @@ public class TaskDetails extends AppCompatActivity {
         Button btnURL = findViewById(R.id.btnURL);
 
 
-
-
-        String title = getIntent().getStringExtra("title");
-        String description = getIntent().getStringExtra("description");
-        String context = getIntent().getStringExtra("context");
-        String priority = getIntent().getStringExtra("priority");
-        String startDate = getIntent().getStringExtra("start_date");
-        String endDate = getIntent().getStringExtra("end_date");
-        String url = getIntent().getStringExtra("url");
+        id = getIntent().getIntExtra("id", 0);
+        title = getIntent().getStringExtra("title");
+        description = getIntent().getStringExtra("description");
+        context = getIntent().getStringExtra("context");
+        priority = getIntent().getStringExtra("priority");
+        startDate = getIntent().getStringExtra("start_date");
+        endDate = getIntent().getStringExtra("end_date");
+        url = getIntent().getStringExtra("url");
 
         if (!url.isEmpty()) {
-            url = getIntent().getStringExtra("url");
-            String finalUrl = url;
+            String finalUrl = getIntent().getStringExtra("url");
             btnURL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,8 +64,6 @@ public class TaskDetails extends AppCompatActivity {
             btnURL.setVisibility(View.GONE);
             btnURL.setEnabled(false);
         }
-
-
 
 
         // Mettre à jour les TextView avec les informations de la tâche
@@ -102,22 +101,24 @@ public class TaskDetails extends AppCompatActivity {
         dateTextView.setText(dateString);
 
 
-
-
         // Bouton pour éditer la tâche
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String finalUrl1 = getIntent().getStringExtra("url");
+
                 Intent intent = new Intent(TaskDetails.this, AddTask.class);
                 intent.putExtra("edit", true);
-                intent.putExtra("title", getIntent().getStringExtra("title"));
-                intent.putExtra("description", getIntent().getStringExtra("description"));
-                intent.putExtra("context", getIntent().getStringExtra("context"));
-                intent.putExtra("priority", getIntent().getStringExtra("priority"));
-                intent.putExtra("url", getIntent().getStringExtra("url"));
-                intent.putExtra("start_date", getIntent().getStringExtra("start_date"));
-                intent.putExtra("end_date", getIntent().getStringExtra("end_date"));
+                intent.putExtra("id", id);
+                intent.putExtra("title", title);
+                intent.putExtra("description", description);
+                intent.putExtra("context", context);
+                intent.putExtra("priority", priority);
+                intent.putExtra("url", finalUrl1);
+                intent.putExtra("start_date", startDate);
+                intent.putExtra("end_date", endDate);
                 startActivity(intent);
+                finish();
             }
         });
 

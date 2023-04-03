@@ -90,4 +90,35 @@ public class Database extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    void updateData(int id, String title, String desc, String startDate, String endDate, String con, String priority, String url){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TITLE, title);
+        cv.put(COLUMN_DESCRIPTION, desc);
+        cv.put(COLUMN_START_DATE, startDate);
+        cv.put(COLUMN_END_DATE, endDate);
+        cv.put(COLUMN_CONTEXT, con);
+        cv.put(COLUMN_PRIORITY, priority);
+        cv.put(COLUMN_URL, url);
+
+        long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{String.valueOf(id)});
+        if(result == -1){
+            Toast.makeText(context, "Erreur mise à jour de la tâche...", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Tâche mise à jour avec succès !", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void deleteOneRow(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long result = db.delete(TABLE_NAME, "_id=?", new String[]{String.valueOf(id)});
+        if(result == -1){
+            Toast.makeText(context, "Erreur lors de la suppression de la tâche...", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Tâche supprimée avec succès !", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
