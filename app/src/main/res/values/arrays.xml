@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="context_array">
+        <item></item>
         <item>Sur PC</item>
         <item>À la maison</item>
         <item>Au bureau</item>
@@ -8,6 +9,7 @@
     </string-array>
 
     <string-array name="priority_array">
+        <item></item>
         <item>À faire</item>
         <item>En cours</item>
         <item>Terminé</item>

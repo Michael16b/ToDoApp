@@ -21,7 +21,33 @@
     <ListView
         android:id="@+id/listTasks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/btnAdd" />
+        android:layout_height="573dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/filtres"/>
+
+    <TextView
+        android:id="@+id/filtres"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Filters : " />
+
+    <Spinner
+        android:id="@+id/prio_filter"
+        android:layout_width="125dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/filtres"/>
+
+    <Spinner
+        android:id="@+id/context_filter"
+        android:layout_width="125dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/prio_filter" />
 
 </RelativeLayout>

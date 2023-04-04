@@ -2,17 +2,19 @@ package com.example.todomobile;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Database myDB;
     ArrayList<Task> tasks;
     Button btnAdd;
+
+    Spinner filterPrio, filterCon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         myDB = new Database(this.getBaseContext());
         storeData();
 
+        filterPrio = (Spinner) findViewById(R.id.prio_filter);
+        filterCon = (Spinner) findViewById(R.id.context_filter);
+
+        // Configuration des spinners
+        ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterPrio.setAdapter(priorityAdapter);
+
+        ArrayAdapter<CharSequence> contextAdapter = ArrayAdapter.createFromResource(this,
+                R.array.context_array, android.R.layout.simple_spinner_item);
+        contextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterCon.setAdapter(contextAdapter);
 
         //Button pour ajouter une tâche
         btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -81,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("Voulez-vous supprimer cette tâche ?")
                         .setPositiveButton("Oui", (dialog, which) -> {
+                            TaskAdapter adapt = (TaskAdapter) listTasks.getAdapter();
+                            adapt.remove(selectedItem);
                             Database mydb = new Database(getBaseContext());
                             mydb.deleteOneRow(selectedItem.getId());
-                            refreshListTasks();
                         })
                         .setNegativeButton("Non", (dialog, which) -> dialog.cancel())
                         .create()
@@ -91,6 +108,26 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        filterPrio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(filterPrio.getSelectedItem().toString().equals("Terminée")){
+
+                } else if (filterPrio.getSelectedItem().toString().equals("En cours")) {
+
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+
+        initPriorityFilter();
+        initProgressFilter();
     }
 
     void storeData(){
@@ -133,6 +170,61 @@ public class MainActivity extends AppCompatActivity {
         }
 
         refreshListTasks();
+    }
+
+    /**
+     * Initiate the priority filter
+     */
+    private void initPriorityFilter(){
+        Spinner filterPriority = (Spinner) findViewById(R.id.prio_filter);
+        filterPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String priority = parent.getItemAtPosition(position).toString();
+                ArrayList<Task> listFound = new ArrayList<Task>();
+                for (Task task : tasks) {
+                    if (task.getPriority().toLowerCase().contains(priority.toLowerCase() ) || priority.toLowerCase() == "") {
+                        listFound.add(task);
+                    }
+                }
+                TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
+                listTasks.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    /**
+     * Initiate the progress filter
+     */
+    private void initProgressFilter(){
+        Spinner filterProgress = (Spinner) findViewById(R.id.context_filter);
+        filterProgress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String progress = parent.getItemAtPosition(position).toString();
+                ArrayList<Task> listFound = new ArrayList<Task>();
+                for (Task task : tasks) {
+                    if (task.getPriority().toLowerCase().contains(progress.toLowerCase()) ||  progress.toLowerCase()== "") {
+                        listFound.add(task);
+                    }
+                }
+                TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
+                listTasks.setAdapter(adapter);
+            }
+
+            /**
+             * When nothing is selected
+             * @param parent the parent
+             */
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 }
 
