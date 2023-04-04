@@ -90,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Allez sur le site"
+            android:text="@string/allez_sur_le_site"
             android:layout_marginStart="8dp"
             android:textColor="#FFFFFF"
             android:backgroundTint="#0000FF"/>

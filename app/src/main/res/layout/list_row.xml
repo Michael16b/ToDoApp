@@ -8,16 +8,18 @@
         android:id="@+id/title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Titre de la tâche"
+        android:text="@string/titre_de_la_t_che"
         android:textStyle="bold"
         android:textSize="18sp"
+
         android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/date_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Du : 01/01/2022 au 02/01/2022"
+
+        android:text="@string/du_01_01_2022_au_02_01_2022"
         android:textSize="16sp"
         android:layout_marginTop="8dp"/>
 
@@ -31,7 +33,7 @@
             android:id="@+id/priority_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="À Faire"
+            android:text="@string/faire"
             android:textColor="#FFFFFF"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
@@ -45,8 +47,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_computer_24"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:contentDescription="PC" />
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/pc" />
 
     </LinearLayout>
 

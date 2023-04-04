@@ -7,4 +7,9 @@
     <string name="delete">Supprimer</string>
     <string name="go">Go</string>
     <string name="entrez_l_url_ici">Entrez l\'URL ici</string>
+    <string name="pc">PC</string>
+    <string name="faire">À Faire</string>
+    <string name="du_01_01_2022_au_02_01_2022">Du : 01/01/2022 au 02/01/2022</string>
+    <string name="titre_de_la_t_che">Titre de la tâche</string>
+    <string name="allez_sur_le_site">Allez sur le site</string>
 </resources>

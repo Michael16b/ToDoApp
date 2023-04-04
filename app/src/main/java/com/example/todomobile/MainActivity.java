@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             refreshListTasks();
         }
+        refreshListTasks();
     }
 
     /**

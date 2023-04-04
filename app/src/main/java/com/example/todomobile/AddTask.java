@@ -30,7 +30,6 @@ public class AddTask extends AppCompatActivity {
     private TextInputEditText mStartDateEditText, mEndDateEditText;
     private EditText mUrlEditText;
     private Boolean mIsValidTask = true;
-    private Button mSaveButton;
 
     int id;
     String title, description, context, priority, url, startDate, endDate;
@@ -47,7 +46,7 @@ public class AddTask extends AppCompatActivity {
         mDescriptionEditText = findViewById(R.id.description_edit_text);
         mContextSpinner = findViewById(R.id.context_spinner);
         mPrioritySpinner = findViewById(R.id.priority_spinner);
-        mSaveButton = findViewById(R.id.save_button);
+        Button saveButton = findViewById(R.id.save_button);
         mStartDateEditText = findViewById(R.id.start_date_picker_edittext);
         mEndDateEditText = findViewById(R.id.end_date_picker_edittext);
         mUrlEditText = findViewById(R.id.url_edit_text);
@@ -128,7 +127,7 @@ public class AddTask extends AppCompatActivity {
 
 
         //Button enregistrer
-        mSaveButton.setOnClickListener(e -> {
+        saveButton.setOnClickListener(e -> {
 
             //Récupération des valeurs
             title = mTitleEditText.getText().toString().trim();
@@ -159,7 +158,7 @@ public class AddTask extends AppCompatActivity {
             }
 
             //Si le but est la modification d'une tâche, on rentre dans cette condition
-            if (getIntent().hasExtra("edit")) {
+            if (mIsEdit) {
                 //Mise à jour
                 Database mydb = new Database(this.getBaseContext());
                 mydb.updateData(id, title, description, startDate, endDate, context, priority, url);
