@@ -45,12 +45,26 @@ public class MainActivity extends AppCompatActivity {
         filterCon = (Spinner) findViewById(R.id.context_filter);
 
         // Configuration des spinners
-        ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this, R.array.priority_array, android.R.layout.simple_spinner_item);
+
+        String[] priorityArray = getResources().getStringArray(R.array.priority_array);
+        String[] priorityArrayWithEmpty = new String[priorityArray.length+1];
+
+        priorityArrayWithEmpty[0] = "";
+        for (int i = 0; i < priorityArray.length; i++) {
+            priorityArrayWithEmpty[i+1] = priorityArray[i];
+        }
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, priorityArrayWithEmpty);
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterPrio.setAdapter(priorityAdapter);
 
-        ArrayAdapter<CharSequence> contextAdapter = ArrayAdapter.createFromResource(this,
-                R.array.context_array, android.R.layout.simple_spinner_item);
+
+        String[] contextArray = getResources().getStringArray(R.array.context_array);
+        String[] contextArrayWithEmpty = new String[contextArray.length+1];
+        contextArrayWithEmpty[0] = "";
+        for (int i = 0; i < contextArray.length; i++) {
+            contextArrayWithEmpty[i+1] = contextArray[i];
+        }
+        ArrayAdapter<String> contextAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, contextArrayWithEmpty);
         contextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterCon.setAdapter(contextAdapter);
 
@@ -156,8 +170,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void refreshListTasks(){
-        TaskAdapter adapt = (TaskAdapter) listTasks.getAdapter();
         storeData();
+        TaskAdapter adapt = new TaskAdapter(this, tasks);
+        listTasks.setAdapter(adapt);
         adapt.notifyDataSetChanged();
     }
 
@@ -168,8 +183,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             refreshListTasks();
         }
-
-        refreshListTasks();
     }
 
     /**
@@ -183,9 +196,13 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String priority = parent.getItemAtPosition(position).toString();
                 ArrayList<Task> listFound = new ArrayList<Task>();
-                for (Task task : tasks) {
-                    if (task.getPriority().toLowerCase().contains(priority.toLowerCase() ) || priority.toLowerCase() == "") {
-                        listFound.add(task);
+                if(priority.toLowerCase().equals("")){ // Si le filtre est vide
+                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
+                }else{ // Sinon, appliquer le filtre
+                    for (Task task : tasks) {
+                        if (task.getPriority().toLowerCase().contains(priority.toLowerCase() ) || priority.toLowerCase() == "") {
+                            listFound.add(task);
+                        }
                     }
                 }
                 TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
@@ -208,19 +225,19 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String progress = parent.getItemAtPosition(position).toString();
                 ArrayList<Task> listFound = new ArrayList<Task>();
-                for (Task task : tasks) {
-                    if (task.getPriority().toLowerCase().contains(progress.toLowerCase()) ||  progress.toLowerCase()== "") {
-                        listFound.add(task);
+                if(progress.toLowerCase().equals("")){ // Si le filtre est vide
+                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
+                }else{ // Sinon, appliquer le filtre
+                    for (Task task : tasks) {
+                        if (task.getContext().toLowerCase().contains(progress.toLowerCase()) ||  progress.toLowerCase()== "") {
+                            listFound.add(task);
+                        }
                     }
                 }
                 TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
                 listTasks.setAdapter(adapter);
             }
 
-            /**
-             * When nothing is selected
-             * @param parent the parent
-             */
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
