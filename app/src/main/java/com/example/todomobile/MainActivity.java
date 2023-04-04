@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     Database myDB;
     ArrayList<Task> tasks;
     Button btnAdd;
-
     Spinner filterPrio, filterCon;
 
     @Override
@@ -33,13 +32,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tasks = new ArrayList<Task>();
+        myDB = new Database(this.getBaseContext());
+        storeData();
 
         TaskAdapter adapt = new TaskAdapter(this, tasks);
         listTasks = (ListView) findViewById(R.id.listTasks);
         listTasks.setAdapter(adapt);
 
-        myDB = new Database(this.getBaseContext());
-        storeData();
+
 
         filterPrio = (Spinner) findViewById(R.id.prio_filter);
         filterCon = (Spinner) findViewById(R.id.context_filter);
@@ -123,25 +123,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        filterPrio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(filterPrio.getSelectedItem().toString().equals("Terminée")){
-
-                } else if (filterPrio.getSelectedItem().toString().equals("En cours")) {
-
-                }else{
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
         initPriorityFilter();
         initProgressFilter();
+        refreshListTasks();
     }
 
     void storeData(){
@@ -208,10 +192,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
                 listTasks.setAdapter(adapter);
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                refreshListTasks();
+            }
         });
     }
 
@@ -241,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                refreshListTasks();
             }
         });
     }
