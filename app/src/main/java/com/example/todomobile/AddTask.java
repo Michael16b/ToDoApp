@@ -25,15 +25,20 @@ import java.util.Objects;
 
 public class AddTask extends AppCompatActivity {
 
-    private EditText mTitleEditText, mDescriptionEditText;
+    /**Zone de saisie du Titre et Description*/
+    private EditText mTitleEditText, mDescriptionEditText, mUrlEditText;
+    /**Spinner déroulant pour choisir le contexte et la priorité*/
     private Spinner mContextSpinner, mPrioritySpinner;
+    /**Selectionneur de date de début et de date de fin*/
     private TextInputEditText mStartDateEditText, mEndDateEditText;
-    private EditText mUrlEditText;
+    /**Variable booléenne vrai si tous les attributs sont corrects, faux sinon.*/
     private Boolean mIsValidTask = true;
 
+    //Variables permettant de récupérer les informations rentrées par l'utilisateur
     int id;
     String title, description, context, priority, url, startDate, endDate;
 
+    //Initialisation d'une date au format français
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     @Override
@@ -41,7 +46,7 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_task);
 
-        //Initialisation des attributs
+        //Initialisation des attributs de l'activité
         mTitleEditText = findViewById(R.id.title_edit_text);
         mDescriptionEditText = findViewById(R.id.description_edit_text);
         mContextSpinner = findViewById(R.id.context_spinner);
@@ -53,12 +58,13 @@ public class AddTask extends AppCompatActivity {
         boolean mIsEdit = getIntent().hasExtra("edit");
 
 
-        // Configuration des spinners
+        ////Configuration du spinner (filtre) de priorité
         ArrayAdapter<CharSequence> priorityAdapter = ArrayAdapter.createFromResource(this,
                 R.array.priority_array, android.R.layout.simple_spinner_item);
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPrioritySpinner.setAdapter(priorityAdapter);
 
+        //Configuration du spinner (filtre) de contexte
         ArrayAdapter<CharSequence> contextAdapter = ArrayAdapter.createFromResource(this,
                 R.array.context_array, android.R.layout.simple_spinner_item);
         contextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,7 +84,7 @@ public class AddTask extends AppCompatActivity {
             endDate = getIntent().getStringExtra("end_date");
             url = getIntent().getStringExtra("url");
 
-            //Affichage des anciennes valeurs
+            //Affichage des anciennes valeurs sur l'activité
             mTitleEditText.setText(title);
             mDescriptionEditText.setText(description);
             mStartDateEditText.setText(startDate);
@@ -165,7 +171,7 @@ public class AddTask extends AppCompatActivity {
                 finish();
             }else{
 
-                //Si tout est valide alors on enregistre le texte
+                //Si tout les champs sont valides alors on enregistre les modifications
                 if (mIsValidTask) {
                     Intent intent = new Intent();
                     Database myDB = new Database(this.getBaseContext());
@@ -177,9 +183,11 @@ public class AddTask extends AppCompatActivity {
         });
 
 
-        // Configurer les DatePickers
+        //Récupérer les dates dans les dates picker
         String startDate = mStartDateEditText.getText().toString().trim();
         String endDate = mEndDateEditText.getText().toString().trim();
+
+        //Tester la valeur null sur les selectionneur de date
         if (startDate == null) {
             startDate = mDateFormat.format(Calendar.getInstance().getTime());
         }

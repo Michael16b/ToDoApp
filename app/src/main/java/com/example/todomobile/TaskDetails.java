@@ -18,7 +18,6 @@ import java.util.Objects;
 
 public class TaskDetails extends AppCompatActivity {
 
-
     private final SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     int id;
@@ -31,7 +30,7 @@ public class TaskDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_details);
 
-
+        //Initialisation des attributs
         TextView titleTextView = findViewById(R.id.title_textview);
         TextView descriptionTextView = findViewById(R.id.description_textview);
         ImageView contextImageView = findViewById(R.id.context_imageview);
@@ -40,7 +39,7 @@ public class TaskDetails extends AppCompatActivity {
         Button btnEdit = findViewById(R.id.btnEdit);
         Button btnURL = findViewById(R.id.btnURL);
 
-
+        //Récupération des valeurs passé par l'intent
         id = getIntent().getIntExtra("id", 0);
         title = getIntent().getStringExtra("title");
         description = getIntent().getStringExtra("description");
@@ -49,6 +48,7 @@ public class TaskDetails extends AppCompatActivity {
         startDate = getIntent().getStringExtra("start_date");
         endDate = getIntent().getStringExtra("end_date");
         url = getIntent().getStringExtra("url");
+
 
         if (!url.isEmpty()) {
             String finalUrl = getIntent().getStringExtra("url");
@@ -123,7 +123,6 @@ public class TaskDetails extends AppCompatActivity {
         });
 
     }
-
 
     private String formatDate(String date) {
         try {

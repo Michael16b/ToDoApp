@@ -22,6 +22,7 @@ public class WebViewToDo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_view);
 
+        //Initialisation des attributs
         urlEditText = findViewById(R.id.urlEditText);
         Button goButton = findViewById(R.id.goButton);
         webView = findViewById(R.id.webView);
@@ -30,6 +31,7 @@ public class WebViewToDo extends AppCompatActivity {
         urlEditText.setText(getIntent().getStringExtra("url"));
         webView.loadUrl(getIntent().getStringExtra("url"));
 
+        //Affiche l'url dans la webview
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -40,14 +42,13 @@ public class WebViewToDo extends AppCompatActivity {
             }
         });
 
+        //Si le bouton go est préssé alors on affiche l'url sur la webview
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url = urlEditText.getText().toString();
                 webView.loadUrl(url);
             }
-
-
         });
     }
 }

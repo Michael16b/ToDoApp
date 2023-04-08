@@ -21,18 +21,28 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**Liste d'activité*/
     ListView listTasks;
+
+    /**Base de données des tâches*/
     Database myDB;
+
+    /**Liste de tâches*/
     ArrayList<Task> tasks;
+
+    /**Bouton d'ajout*/
     Button btnAdd;
+
+    /**Filtres des tâches*/
     Spinner filterPrio, filterCon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //forcer le mode clair
         setContentView(R.layout.activity_main);
 
+        //Initialisation des variables
         tasks = new ArrayList<Task>();
         myDB = new Database(this.getBaseContext());
         storeData();
@@ -45,11 +55,9 @@ public class MainActivity extends AppCompatActivity {
         filterPrio = (Spinner) findViewById(R.id.prio_filter);
         filterCon = (Spinner) findViewById(R.id.context_filter);
 
-        // Configuration des spinners
-
+        //Configuration du spinner (filtre) de priorité
         String[] priorityArray = getResources().getStringArray(R.array.priority_array);
         String[] priorityArrayWithEmpty = new String[priorityArray.length+1];
-
         priorityArrayWithEmpty[0] = "";
         for (int i = 0; i < priorityArray.length; i++) {
             priorityArrayWithEmpty[i+1] = priorityArray[i];
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterPrio.setAdapter(priorityAdapter);
 
-
+        //Configuration du spinner (filtre) de contexte
         String[] contextArray = getResources().getStringArray(R.array.context_array);
         String[] contextArrayWithEmpty = new String[contextArray.length+1];
         contextArrayWithEmpty[0] = "";
@@ -72,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         //Button pour ajouter une tâche
         btnAdd = (Button) findViewById(R.id.btnAdd);
 
+        //Listener sur le bouton d'ajout
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Afficher les détails d'une tâche
         listTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
@@ -102,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // Supprimer une tâche
+        //Supprimer une tâche
         listTasks.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapter, View v, int position, long id) {
@@ -124,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Filtrer les tâches en fonction de la priorité
         filterPrio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -150,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Filtrer les tâches en fonction du contexte
         filterCon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -176,9 +187,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Rafraîchir la liste de tâches
         refreshListTasks(tasks);
     }
 
+    /**Stocker les données de la base dans tasks*/
     void storeData(){
         Cursor cursor = myDB.readAllData();
 
@@ -204,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**Rafraîchir/Afficher la liste passée en paramètre*/
     void refreshListTasks(ArrayList<Task> array){
         storeData();
         TaskAdapter adapt = new TaskAdapter(this, array);
@@ -211,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         adapt.notifyDataSetChanged();
     }
 
+    /**Traiter les résultat retournés par un Intent*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 public class TaskAdapter extends ArrayAdapter<Task> {
     Drawable priorityDrawable;
 
+    /**Constructeur de l'adapteur*/
     public TaskAdapter(Context context, ArrayList<Task> tasks) {
         super(context, 0, tasks);
     }
@@ -28,11 +28,12 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         Task task = getItem(position);
         String context = task.getContext();
 
+        //Test de la nullité de convertView
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
         }
 
-
+        //Initialisation des attributs
         TextView titleTextView = (TextView) convertView.findViewById(R.id.title_textview);
         ImageView contextImageView = (ImageView) convertView.findViewById(R.id.context_imageview);
         TextView priorityTextView = (TextView) convertView.findViewById(R.id.priority_textview);
@@ -42,6 +43,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         titleTextView.setText(task.getTaskTitle());
         priorityTextView.setText(task.getPriority());
 
+        //Affichage des icones
         if (context.equals("Sur PC")) {
             contextImageView.setImageResource(R.drawable.baseline_computer_24);
             contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
@@ -56,7 +58,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
         }
 
-
+        //Changement de couleur en fonction de la priorité
         if (task.getPriority().equalsIgnoreCase("Terminé")) {
             priorityDrawable = ContextCompat.getDrawable(getContext(), R.drawable.priority_done_background);
         } else if (task.getPriority().equalsIgnoreCase("En cours")) {
@@ -65,7 +67,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             priorityDrawable = ContextCompat.getDrawable(getContext(), R.drawable.priority_todo_background);
         }
         priorityTextView.setBackground(priorityDrawable);
-
 
         return convertView;
     }
