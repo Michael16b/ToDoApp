@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         TaskAdapter adapt = new TaskAdapter(this, tasks);
         listTasks = (ListView) findViewById(R.id.listTasks);
         listTasks.setAdapter(adapt);
-
-
+        adapt.notifyDataSetChanged();
 
         filterPrio = (Spinner) findViewById(R.id.prio_filter);
         filterCon = (Spinner) findViewById(R.id.context_filter);
@@ -125,9 +124,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initPriorityFilter();
-        initProgressFilter();
-        refreshListTasks();
+        filterPrio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String priority = parent.getItemAtPosition(position).toString();
+                ArrayList<Task> listFound = new ArrayList<Task>();
+
+                if(priority.toLowerCase().equals("")){ // Si le filtre est vide
+                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
+
+                }else{ // Sinon, appliquer le filtre
+                    for (Task task : tasks) {
+                        if (task.getPriority().toLowerCase().contains(priority.toLowerCase() ) || priority.toLowerCase() == "") {
+                            listFound.add(task);
+                        }
+                    }
+                }
+                refreshListTasks(listFound);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                refreshListTasks(tasks);
+            }
+        });
+
+        filterCon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String progress = parent.getItemAtPosition(position).toString();
+                ArrayList<Task> listFound = new ArrayList<Task>();
+
+                if(progress.toLowerCase().equals("")){ // Si le filtre est vide
+                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
+
+                }else{ // Sinon, appliquer le filtre
+                    for (Task task : tasks) {
+                        if (task.getContext().toLowerCase().contains(progress.toLowerCase()) || progress.toLowerCase() == "") {
+                            listFound.add(task);
+                        }
+                    }
+                }
+                refreshListTasks(listFound);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                refreshListTasks(tasks);
+            }
+        });
+
+        refreshListTasks(tasks);
     }
 
     void storeData(){
@@ -155,9 +204,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void refreshListTasks(){
+    void refreshListTasks(ArrayList<Task> array){
         storeData();
-        TaskAdapter adapt = new TaskAdapter(this, tasks);
+        TaskAdapter adapt = new TaskAdapter(this, array);
         listTasks.setAdapter(adapt);
         adapt.notifyDataSetChanged();
     }
@@ -167,72 +216,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            refreshListTasks();
+            refreshListTasks(tasks);
         }
-        refreshListTasks();
-    }
-
-    /**
-     * Initiate the priority filter
-     */
-    private void initPriorityFilter(){
-        Spinner filterPriority = (Spinner) findViewById(R.id.prio_filter);
-        filterPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String priority = parent.getItemAtPosition(position).toString();
-                ArrayList<Task> listFound = new ArrayList<Task>();
-                if(priority.toLowerCase().equals("")){ // Si le filtre est vide
-                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
-                }else{ // Sinon, appliquer le filtre
-                    for (Task task : tasks) {
-                        if (task.getPriority().toLowerCase().contains(priority.toLowerCase() ) || priority.toLowerCase() == "") {
-                            listFound.add(task);
-                        }
-                    }
-                }
-                TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
-                listTasks.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                refreshListTasks();
-            }
-        });
-    }
-
-    /**
-     * Initiate the progress filter
-     */
-    private void initProgressFilter(){
-        Spinner filterProgress = (Spinner) findViewById(R.id.context_filter);
-        filterProgress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String progress = parent.getItemAtPosition(position).toString();
-                ArrayList<Task> listFound = new ArrayList<Task>();
-                if(progress.toLowerCase().equals("")){ // Si le filtre est vide
-                    listFound.addAll(tasks); // Ajouter toutes les tâches à la liste
-                }else{ // Sinon, appliquer le filtre
-                    for (Task task : tasks) {
-                        if (task.getContext().toLowerCase().contains(progress.toLowerCase()) ||  progress.toLowerCase()== "") {
-                            listFound.add(task);
-                        }
-                    }
-                }
-                TaskAdapter adapter = new TaskAdapter(getApplicationContext(), listFound);
-                listTasks.setAdapter(adapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                refreshListTasks();
-            }
-        });
+        refreshListTasks(tasks);
     }
 }
 

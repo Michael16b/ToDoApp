@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -43,12 +44,16 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         if (context.equals("Sur PC")) {
             contextImageView.setImageResource(R.drawable.baseline_computer_24);
+            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
         } else if (context.equals("À la maison")) {
             contextImageView.setImageResource(R.drawable.baseline_home_24);
+            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
         } else if (context.equals("Au bureau")) {
             contextImageView.setImageResource(R.drawable.baseline_work_24);
+            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
         } else if (context.equals("Au téléphone")) {
             contextImageView.setImageResource(R.drawable.baseline_phone_android_24);
+            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
         }
 
 
