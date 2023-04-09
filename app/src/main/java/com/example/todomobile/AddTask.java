@@ -149,6 +149,9 @@ public class AddTask extends AppCompatActivity {
             if (title.isEmpty() || description.isEmpty() || startDate.isEmpty() || endDate.isEmpty())  {
                 Toast.makeText(AddTask.this, "Veuillez remplir tous les champs", Toast.LENGTH_LONG).show();
                 mIsValidTask = false;
+            } else if (startDate.compareTo(endDate) > 0) {
+                Toast.makeText(AddTask.this, "La date de début doit être antérieure à la date de fin", Toast.LENGTH_LONG).show();
+                mIsValidTask = false;
             } else {
                 mIsValidTask = true;
             }
