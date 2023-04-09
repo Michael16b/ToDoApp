@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="573dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/filtres"/>
+        android:layout_below="@id/filtres"
+        />
 
     <TextView
         android:id="@+id/filtres"

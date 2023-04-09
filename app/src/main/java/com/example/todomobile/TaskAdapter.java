@@ -46,16 +46,16 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         //Affichage des icones
         if (context.equals("Sur PC")) {
             contextImageView.setImageResource(R.drawable.baseline_computer_24);
-            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
+
         } else if (context.equals("À la maison")) {
             contextImageView.setImageResource(R.drawable.baseline_home_24);
-            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
+
         } else if (context.equals("Au bureau")) {
             contextImageView.setImageResource(R.drawable.baseline_work_24);
-            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
+
         } else if (context.equals("Au téléphone")) {
             contextImageView.setImageResource(R.drawable.baseline_phone_android_24);
-            contextImageView.setColorFilter(getContext().getResources().getColor(R.color.black));
+
         }
 
         //Changement de couleur en fonction de la priorité

@@ -4,6 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/black</item>
+
     </style>
 
     <style name="TaskDetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,5 +18,4 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
-
 </resources>
